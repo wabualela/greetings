@@ -1,5 +1,6 @@
 <?php
 
+
 // This file is part of Moodle - https://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -16,23 +17,37 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * Plugin strings are defined here.
+ * Plugin Libraries.
  *
  * @package     local_greetings
- * @category    string
  * @copyright   2023 Wail Abualela <wailabualela@gmail.com>
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+function local_greetings_get_greeting($user)
+{
+    if ($user == null) {
+        return get_string('greetinguser', 'local_greetings');
+    }
 
-$string['pluginname'] = 'Greetings';
+    $country = $user->country;
+    switch ($country) {
+        case 'AU':
+            $langstr = 'greetinguserau';
+            break;
+        case 'ES':
+            $langstr = 'greetinguseres';
+            break;
+        case 'FJ':
+            $langstr = 'greetinguserfj';
+            break;
+        case 'NZ':
+            $langstr = 'greetingusernz';
+            break;
+        default:
+            $langstr = 'greetingloggedinuser';
+            break;
+    }
 
-$string['greetinguser'] = 'Greetings, user.';
-$string['greetingloggedinuser'] = 'Greetings, {$a}.';
-
-$string['greetinguserau'] = 'Hello, {$a}.';
-$string['greetinguseres'] = 'Hola, {$a}.';
-$string['greetinguserfj'] = 'Bula, {$a}.';
-$string['greetingusernz'] = 'Kia Ora, {$a}.';
-$string['greetinguserug'] = 'مرحبا, {$a}.';
+    return get_string($langstr, 'local_greetings', fullname($user));
+}
