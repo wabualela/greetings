@@ -22,7 +22,13 @@
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-function local_greetings_get_greeting($user) {
+/**
+ * local_greetings_get_greeting
+ *
+ * @param  mixed $user
+ * @return string
+ */
+function local_greetings_get_greeting($user): string {
     if ($user == null) {
         return get_string('greetinguser', 'local_greetings');
     }
@@ -49,14 +55,25 @@ function local_greetings_get_greeting($user) {
     return get_string($langstr, 'local_greetings', fullname($user));
 }
 
-function local_greetings_extend_navigation_frontpage(navigation_node $frontpage) {
+/**
+ * local_greetings_extend_navigation_frontpage
+ *
+ * @param  navigation_node $frontpage
+ * @return void
+ */
+function local_greetings_extend_navigation_frontpage(navigation_node $frontpage): void {
     $frontpage->add(
         get_string('pluginname', 'local_greetings'),
         new moodle_url('/local/greetings/index.php')
     );
 }
-
-function local_greetings_extend_navigation(global_navigation $root) {
+/**
+ * local_greetings_extend_navigation
+ *
+ * @param  global_navigation $root
+ * @return void
+ */
+function local_greetings_extend_navigation(global_navigation $root): void {
     $node = navigation_node::create(
         get_string('pluginname', 'local_greetings'),
         new moodle_url('/local/greetings/index.php'),
