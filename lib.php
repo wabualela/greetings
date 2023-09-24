@@ -23,7 +23,7 @@
  */
 
 /**
- * local_greetings_get_greeting
+ *  local_greetings_get_greeting
  *
  * @param  mixed $user
  * @return string
@@ -56,19 +56,21 @@ function local_greetings_get_greeting($user): string {
 }
 
 /**
- * local_greetings_extend_navigation_frontpage
+ *  local_greetings_extend_navigation_frontpage
  *
  * @param  navigation_node $frontpage
  * @return void
  */
 function local_greetings_extend_navigation_frontpage(navigation_node $frontpage): void {
-    $frontpage->add(
-        get_string('pluginname', 'local_greetings'),
-        new moodle_url('/local/greetings/index.php')
-    );
+    if (!isguestuser()) {
+        $frontpage->add(
+            get_string('pluginname', 'local_greetings'),
+            new moodle_url('/local/greetings/index.php')
+        );
+    }
 }
 /**
- * local_greetings_extend_navigation
+ *  local_greetings_extend_navigation
  *
  * @param  global_navigation $root
  * @return void
@@ -82,6 +84,6 @@ function local_greetings_extend_navigation(global_navigation $root): void {
         null,
         new pix_icon('t/message', '')
     );
-
     $root->add_node($node);
+
 }

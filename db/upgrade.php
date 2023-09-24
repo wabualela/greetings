@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * Upgrade
+ *  Upgrade
  *
  * @package     local_greetings
  * @copyright   2023 Wail Abualela <wailabualela@gmail.com>
@@ -23,38 +23,34 @@
  */
 
  /**
- * Define upgrade steps to be performed to upgrade the plugin from the old version to the current one.
- *
- * @param int $oldversion Version number the plugin is being upgraded from.
- */
-function xmldb_local_greetings_upgrade($oldversion)
-{
+  * Define upgrade steps to be performed to upgrade the plugin from the old version to the current one.
+  *
+  * @param int $oldversion Version number the plugin is being upgraded from.
+  */
+function xmldb_local_greetings_upgrade($oldversion) {
     global $DB;
     $dbman = $DB->get_manager();
 
     if ($oldversion < 2023092000) {
 
-       // Define field userid to be added to local_greetings_messages.
-       $table = new xmldb_table('local_greetings_messages');
-       $field = new xmldb_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '1', 'timecreated');
+        // Define field userid to be added to local_greetings_messages.
+        $table = new xmldb_table('local_greetings_messages');
+        $field = new xmldb_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '1', 'timecreated');
 
-       // Conditionally launch add field userid.
-       if (!$dbman->field_exists($table, $field)) {
-           $dbman->add_field($table, $field);
-       }
+        // Conditionally launch add field userid.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
 
-       // Define key greetings-user-foreign-key (foreign) to be added to local_greetings_messages.
-       $table = new xmldb_table('local_greetings_messages');
-       $key = new xmldb_key('greetings-user-foreign-key', XMLDB_KEY_FOREIGN, ['userid'], 'user', ['id']);
+        // Define key greetings-user-foreign-key (foreign) to be added to local_greetings_messages.
+        $table = new xmldb_table('local_greetings_messages');
+        $key = new xmldb_key('greetings-user-foreign-key', XMLDB_KEY_FOREIGN, ['userid'], 'user', ['id']);
 
-       // Launch add key greetings-user-foreign-key.
-       $dbman->add_key($table, $key);
-
+        // Launch add key greetings-user-foreign-key.
+        $dbman->add_key($table, $key);
 
         // Greetings savepoint reached.
         upgrade_plugin_savepoint(true, 2023092000, 'local', 'greetings');
     }
-
-
     return true;
 }
