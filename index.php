@@ -48,8 +48,8 @@ if ($action == 'del') {
     $id = required_param('id', PARAM_TEXT);
 
     if ($deleteanypost || $deletepost) {
-        // TODO: confirm before delete.
         $DB->delete_records('local_greetings_messages', ['id' => $id]);
+        core\notification::success('deleted');
         redirect($PAGE->url);
     }
 }
@@ -100,14 +100,16 @@ if (has_capability('local/greetings:viewmessages', $context)) {
         echo html_writer::start_div('d-flex justify-content-between');
         echo html_writer::tag('p', format_text($m->message, FORMAT_PLAIN), ['class' => 'card-text']);
         if ($deleteanypost || ($deletepost && $m->userid == $USER->id)) {
-            echo html_writer::link(
-                new moodle_url(
-                    '/local/greetings/index.php',
-                    array('action' => 'del', 'id' => $m->id)
-                ),
-                $OUTPUT->pix_icon('t/delete', ''),
-                ['class' => 'text-danger']
-            );
+            $confirmurl = $PAGE->url . "?action=del&id=$m->id";
+            echo $OUTPUT->single_button('#', get_string('delete'), 'get', [
+                'data-modal' => 'confirmation',
+                'data-modal-title-str' => json_encode(['delete', 'core']),
+                'data-modal-content-str' => json_encode(['areyousure']),
+                'data-modal-yes-button-str' => json_encode(['delete', 'core']),
+                'data-modal-toast' => 'true',
+                'data-modal-toast-confirmation-str' => json_encode(["deleteblockinprogress", "block", "Online users"]),
+                'data-modal-destination' => $confirmurl,
+            ]);
         }
         echo html_writer::end_div();
         echo html_writer::tag('p', get_string('postedby', 'local_greetings', $m->firstname), array('class' => 'card-text'));
