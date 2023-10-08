@@ -45,6 +45,7 @@ $deleteanypost = has_capability('local/greetings:deleteanymessage', $context);
 $action = optional_param('action', '', PARAM_TEXT);
 
 if ($action == 'del') {
+    require_sesskey();
     $id = required_param('id', PARAM_TEXT);
 
     if ($deleteanypost || $deletepost) {
@@ -100,7 +101,7 @@ if (has_capability('local/greetings:viewmessages', $context)) {
         echo html_writer::start_div('d-flex justify-content-between');
         echo html_writer::tag('p', format_text($m->message, FORMAT_PLAIN), ['class' => 'card-text']);
         if ($deleteanypost || ($deletepost && $m->userid == $USER->id)) {
-            $confirmurl = $PAGE->url . "?action=del&id=$m->id";
+            $confirmurl = $PAGE->url . "?action=del&id=$m->id&sesskey=" . sesskey();
             echo $OUTPUT->single_button('#', get_string('delete'), 'get', [
                 'data-modal' => 'confirmation',
                 'data-modal-title-str' => json_encode(['delete', 'core']),
@@ -112,7 +113,7 @@ if (has_capability('local/greetings:viewmessages', $context)) {
             ]);
         }
         echo html_writer::end_div();
-        echo html_writer::tag('p', get_string('postedby', 'local_greetings', $m->firstname), array('class' => 'card-text'));
+        echo html_writer::tag('p', get_string('postedby', 'local_greetings', $m->firstname), ['class' => 'card-text']);
         echo html_writer::start_tag('p', ['class' => 'card-text']);
         echo html_writer::tag('small', userdate($m->timecreated), ['class' => 'text-muted']);
         echo html_writer::end_tag('p');

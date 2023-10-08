@@ -25,6 +25,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+$string['greetings:deleteanymessage'] = 'Delete all messages';
+$string['greetings:deleteownmessage'] = 'Delete my messages';
 $string['pluginname'] = 'Greetings';
 
 $string['greetinguser'] = 'Greetings, user.';
