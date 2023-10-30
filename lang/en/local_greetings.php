@@ -25,8 +25,11 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+$string['cannoteditmessage'] = 'Can not edit message';
+$string['editmessage'] = 'Edit message';
 $string['greetings:deleteanymessage'] = 'Delete all messages';
 $string['greetings:deleteownmessage'] = 'Delete my messages';
+$string['norecordfound'] = 'No record found';
 $string['pluginname'] = 'Greetings';
 
 $string['greetinguser'] = 'Greetings, user.';
