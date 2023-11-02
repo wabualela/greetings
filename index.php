@@ -50,7 +50,7 @@ if ($action == 'del') {
     $id = required_param('id', PARAM_TEXT);
 
     if ($deleteanypost || $deletepost) {
-        $params = array('id' => $id);
+        $params = ['id' => $id];
 
         // Users without permission should only delete their own post.
         if (!$deleteanypost) {
@@ -111,18 +111,18 @@ if (has_capability('local/greetings:viewmessages', $context)) {
     $cardbackgroundcolor = get_config('local_greetings', 'messagecardbgcolor');
 
     foreach ($messages as $m) {
-        echo html_writer::start_tag('div', array('class' => 'card', 'style' => "background: $cardbackgroundcolor"));
-        echo html_writer::start_tag('div', array('class' => 'card-body'));
-        echo html_writer::tag('p', format_text($m->message, FORMAT_PLAIN), array('class' => 'card-text'));
-        echo html_writer::tag('p', get_string('postedby', 'local_greetings', $m->firstname), array('class' => 'card-text'));
-        echo html_writer::start_tag('p', array('class' => 'card-text'));
-        echo html_writer::tag('small', userdate($m->timecreated), array('class' => 'text-muted'));
+        echo html_writer::start_tag('div', ['class' => 'card', 'style' => "background: $cardbackgroundcolor"]);
+        echo html_writer::start_tag('div', ['class' => 'card-body']);
+        echo html_writer::tag('p', format_text($m->message, FORMAT_PLAIN), ['class' => 'card-text']);
+        echo html_writer::tag('p', get_string('postedby', 'local_greetings', $m->firstname), ['class' => 'card-text']);
+        echo html_writer::start_tag('p', ['class' => 'card-text']);
+        echo html_writer::tag('small', userdate($m->timecreated), ['class' => 'text-muted']);
         echo html_writer::end_tag('p');
 
         // Wrapping this within the "Delete" capability check for simplicity.
         // You can also create another capability for "Edit messages" if you want.
         if ($deleteanypost || ($deletepost && $m->userid == $USER->id)) {
-            echo html_writer::start_tag('p', array('class' => 'card-footer text-center'));
+            echo html_writer::start_tag('p', ['class' => 'card-footer text-center']);
 
             echo html_writer::link(
                 new moodle_url(
